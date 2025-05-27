@@ -1,4 +1,3 @@
-
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -15,6 +14,9 @@ using namespace std;
 struct Recipe {
     string title;
     string ingredients;
+    string category;
+    string image;
+    string allergens;
 };
 
 vector<Recipe> load_recipes(const string& filename) {
@@ -22,17 +24,22 @@ vector<Recipe> load_recipes(const string& filename) {
     ifstream file(filename);
     string line;
     while (getline(file, line)) {
-        size_t pos = line.find('|');
-        if (pos != string::npos) {
-            recipes.push_back({line.substr(0, pos), line.substr(pos + 1)});
-        }
+        stringstream ss(line);
+        string title, ingredients, category, image, allergens;
+        getline(ss, title, '|');
+        getline(ss, ingredients, '|');
+        getline(ss, category, '|');
+        getline(ss, image, '|');
+        getline(ss, allergens);
+        recipes.push_back({title, ingredients, category, image, allergens});
     }
     return recipes;
 }
 
 void save_recipe(const string& filename, const Recipe& recipe) {
     ofstream file(filename, ios::app);
-    file << recipe.title << "|" << recipe.ingredients << endl;
+    file << recipe.title << "|" << recipe.ingredients << "|" << recipe.category << "|"
+         << recipe.image << "|" << recipe.allergens << endl;
 }
 
 string generate_recipe_list_html(const vector<Recipe>& recipes) {
@@ -119,13 +126,21 @@ int main() {
             size_t pos = request.find("\r\n\r\n");
             if (pos != string::npos) {
                 string body = request.substr(pos + 4);
-                string title, ingredients;
-                size_t p1 = body.find("title="), p2 = body.find("&ingredients=");
-                if (p1 != string::npos && p2 != string::npos) {
-                    title = url_decode(body.substr(p1 + 6, p2 - (p1 + 6)));
-                    ingredients = url_decode(body.substr(p2 + 13));
-                    save_recipe("recipes.txt", {title, ingredients});
-                }
+                auto extract = [&](const string& key) -> string {
+                    size_t p = body.find(key + "=");
+                    if (p == string::npos) return "";
+                    size_t e = body.find('&', p);
+                    if (e == string::npos) e = body.length();
+                    return url_decode(body.substr(p + key.length() + 1, e - p - key.length() - 1));
+                };
+
+                string title = extract("title");
+                string ingredients = extract("ingredients");
+                string category = extract("category");
+                string image = extract("image");
+                string allergens = extract("allergens");
+
+                save_recipe("recipes.txt", {title, ingredients, category, image, allergens});
             }
             string redirect = "HTTP/1.1 303 See Other\r\nLocation: /\r\n\r\n";
             send(client, redirect.c_str(), redirect.size(), 0);

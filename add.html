@@ -1,20 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Добавить рецепт</title>
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Добавить новый рецепт</h1>
-    <form action="/submit" method="POST">
-        <label for="title">Название:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
-        <label for="ingredients">Ингредиенты:</label><br>
-        <textarea id="ingredients" name="ingredients" rows="6" cols="40" required></textarea><br><br>
-        <input type="submit" value="Добавить">
-    </form>
-    <br>
-    <a href="/">← Назад</a>
+    <div class="container">
+        <h1>🍓 Добавить рецепт</h1>
+        <form action="/submit" method="POST" class="recipe-form">
+            <label for="title">Название рецепта:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="ingredients">Ингредиенты:</label>
+            <textarea id="ingredients" name="ingredients" rows="5" required></textarea>
+
+            <label for="category">Категория:</label>
+            <select id="category" name="category" required>
+                <option value="Торт">Торт</option>
+                <option value="Печенье">Печенье</option>
+                <option value="Десерт">Десерт</option>
+                <option value="Выпечка">Выпечка</option>
+            </select>
+
+            <label for="image">Ссылка на фото:</label>
+            <input type="text" id="image" name="image" placeholder="https://...">
+
+            <label for="allergens">Аллергены (например: орехи, глютен):</label>
+            <input type="text" id="allergens" name="allergens">
+
+            <input type="submit" value="Сохранить рецепт 🍯" class="submit-button">
+        </form>
+        <p style="text-align: center; margin-top: 20px;">
+            <a class="button" href="/">← Назад</a>
+        </p>
+    </div>
 </body>
 </html>
