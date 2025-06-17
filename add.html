@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить рецепт</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .tenor-gif-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .tenor-gif-bg .tenor-gif-embed {
+            width: 100vw !important;
+            height: 100vh !important;
+            min-width: 100vw;
+            min-height: 100vh;
+            max-width: none;
+            max-height: none;
+        }
+    </style>
+   
+    <div class="tenor-gif-bg">
+        <div class="tenor-gif-embed" data-postid="24387134" data-share-method="host" data-aspect-ratio="1.78771" data-width="100%"><a href="https://tenor.com/view/bakey-anime-kawaii-cute-pink-gif-24387134">Bakey Anime GIF</a>from <a href="https://tenor.com/search/bakey-gifs">Bakey GIFs</a></div>
+    </div>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+<div class="container">
+    <h1>🍓 Добавить рецепт</h1>
+    <form action="/submit" method="POST" class="recipe-form">
+        <input type="hidden" id="date" name="date">
+
+        <label for="title">Название рецепта:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="ingredients">Ингредиенты:</label>
+        <textarea id="ingredients" name="ingredients" rows="5" required></textarea>
+
+        <label for="allergens">Аллергены (если есть):</label>
+        <input type="text" id="allergens" name="allergens" placeholder="например, глютен, орехи">
+
+        <label for="category">Категория:</label>
+        <select id="category" name="category" required>
+            <option value="Торт">Торт</option>
+            <option value="Печенье">Печенье</option>
+            <option value="Десерт">Десерт</option>
+            <option value="Выпечка">Выпечка</option>
+        </select>
+
+        <label for="image">Ссылка на фото:</label>
+        <input type="text" id="image" name="image" placeholder="https://...">
+
+        <label>Пошаговый способ приготовления:</label>
+        <input type="button" onclick="add_step()" value="Добавить шаг" class="step-button">
+        <input type="button" onclick="remove_step()" value="Убрать шаг" class="step-button">
+
+        <div id="container"></div>
+
+        <script>
+        let stepCount = 0;
+            
+        add_step()
+
+        function add_step() {
+            const container = document.getElementById('container');
+            const children = container.children;
+            if (children.length < 50) { // Исправлено: увеличен лимит до 50 шагов
+
+                stepCount++;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `step${stepCount}`;
+                input.name = `step${stepCount}`;
+                input.placeholder = `Шаг ${stepCount}`;
+                input.required = true;
+                input.style.marginBottom = '20px';
+                    
+                container.appendChild(input);
+            }
+            else {
+                alert("Не делайте слишком много шагов");
+            }
+        }
+
+        function remove_step() {
+            const container = document.getElementById('container');
+            const children = container.children;
+
+            if (children.length >= 2) {
+                container.removeChild(children[children.length - 1]);
+                stepCount--;
+            } else {
+                alert("Нужен минимум один шаг");
+            }
+        }
+
+        </script>
+
+        <input type="submit" value="Сохранить рецепт 🍯" class="submit-button">
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+        <a class="button" href="/">← Назад</a>
+    </p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById("date").value = `${yyyy}-${mm}-${dd}`;
+    });
+</script>
+</html>

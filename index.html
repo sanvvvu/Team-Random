@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>🍰 Сладкая лавка</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+     <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .tenor-gif-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .tenor-gif-bg .tenor-gif-embed {
+            width: 100vw !important;
+            height: 100vh !important;
+            min-width: 100vw;
+            min-height: 100vh;
+            max-width: none;
+            max-height: none;
+        }
+    </style>
+    <div class="tenor-gif-bg">
+        <div class="tenor-gif-embed" data-postid="27549760" data-share-method="host" data-aspect-ratio="1.92771" data-width="100%"><a href="https://tenor.com/view/bakery-aesthetic-anime-desserts-cookies-gif-27549760">Bakery Aesthetic GIF</a>from <a href="https://tenor.com/search/bakery-gifs">Bakery GIFs</a></div>
+    </div>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+    <!-- Верхняя полоса -->
+    <div class="top-bar">
+        <div class="top-left-title">🍰 Сладкая лавка</div>
+        <form action="/recipes" method="GET" class="top-search-form">
+            <input type="text" name="search" placeholder="Поиск по названию..." required>
+            <button type="submit">🔍 Найти</button>
+        </form>
+    </div>
+
+    <!-- Центральный блок -->
+    <div class="container">
+        <header style="text-align: center;">
+            <h1 style="margin-top: 80px;">🍰 Сладкая лавка</h1>
+        </header>
+
+        <div class="actions center-actions">
+            <a href="/add.html" class="action-btn add-btn">
+                <i class="fas fa-plus-circle"></i> Добавить рецепт
+            </a>
+            <a href="/recipes" class="action-btn view-btn">
+                <i class="fas fa-book-open"></i> Все рецепты
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
