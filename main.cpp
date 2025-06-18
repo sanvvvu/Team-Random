@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <chrono>
 #include <thread>
+#include <regex>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -109,6 +110,19 @@ string replace_newlines(const string& input) {
     return result;
 }
 
+string remake_steps(const string& steps) {
+    istringstream ss(steps);
+    string token;
+    int count = 1;
+    string remade_steps;
+    while (getline(ss, token, ';')) {
+        token = token.substr(0, steps.length() + 1);
+        remade_steps += to_string(count) + ". " + token + "\n";
+        ++count;
+    }
+    return remade_steps;
+}
+
 string generate_recipe_detail_html(const Recipe& recipe) {
     stringstream html;
     html << "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>" << recipe.title << "</title>"
@@ -124,7 +138,7 @@ string generate_recipe_detail_html(const Recipe& recipe) {
     html << "<div class='recipe-details'>"
         << "<div class='detail-section'><h2>Ингредиенты</h2><p>" << replace_newlines(recipe.ingredients) << "</p></div>"
         << "<div class='detail-section'><h2>Инструкции</h2><p>"
-        << replace_newlines(recipe.steps)
+        << replace_newlines(remake_steps(recipe.steps))
         << "</p></div>"
         << "<div class='meta-info'>"
         << "<p><strong>Категория:</strong> " << recipe.category << "</p>"
